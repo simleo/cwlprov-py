@@ -29,7 +29,6 @@ import json
 import logging
 import os.path
 import pathlib
-import posixpath
 import shlex
 import shutil
 import sys
@@ -98,7 +97,7 @@ CWLPROV_SUPPORTED = (
     "https://w3id.org/cwl/prov/0.3.0",
 )
 
-MANIFEST_JSON = posixpath.join("metadata", "manifest.json")
+MANIFEST_JSON = os.path.join("metadata", "manifest.json")
 
 TIME_PADDING = " " * 26  # len("2018-08-08 22:44:06.573330")
 

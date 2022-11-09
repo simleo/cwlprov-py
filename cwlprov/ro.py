@@ -39,7 +39,7 @@ if TYPE_CHECKING:
 
 _logger = logging.getLogger(__name__)
 
-MANIFEST_PATH = pathlib.PurePosixPath("metadata/manifest.json")
+MANIFEST_PATH = pathlib.Path("metadata/manifest.json")
 
 
 def _resource_as_path(path: str) -> pathlib.Path:
@@ -114,10 +114,10 @@ class ResearchObject:
         _logger.info("Using root as fallback RO identifier: %s", self.root_uri)
         return URIRef(self.root_uri)
 
-    def resolve_uri(self, relative_uri: Union[str, pathlib.PurePosixPath]) -> str:
+    def resolve_uri(self, relative_uri: Union[str, pathlib.Path]) -> str:
         return urllib.parse.urljoin(self.root_uri, str(relative_uri))
 
-    def resolve_path(self, uri_path: Union[str, pathlib.PurePosixPath]) -> pathlib.Path:
+    def resolve_path(self, uri_path: Union[str, pathlib.Path]) -> pathlib.Path:
         if arcp.is_arcp_uri(str(uri_path)):
             uri = arcp.parse_arcp(uri_path)
             # Ensure same base URI meaning this bagit
@@ -126,9 +126,9 @@ class ResearchObject:
                     f"{uri_path} does not have the expected base URI: {self.root_uri}."
                 )
             # Strip initial / so path is relative
-            path = pathlib.PurePosixPath(uri.path[1:])
+            path = pathlib.Path(uri.path[1:])
         else:
-            path = pathlib.PurePosixPath(uri_path)
+            path = pathlib.Path(uri_path)
         if path.is_absolute():
             raise Exception(f"The resolved {path} from {uri_path} is absolute.")
 
@@ -163,7 +163,7 @@ class ResearchObject:
 
     def _uriref(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[Union[str, "Node"]] = None,
     ) -> "Node":
         if uri:
@@ -192,7 +192,7 @@ class ResearchObject:
 
     def annotations_about(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[str] = None,
     ) -> Set["Annotation"]:
         resource = self._uriref(path=path, uri=uri)
@@ -201,7 +201,7 @@ class ResearchObject:
 
     def annotations_with_content(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[Union[str, "Node"]] = None,
     ) -> Set["Annotation"]:
         resource = self._uriref(path=path, uri=uri)
@@ -210,7 +210,7 @@ class ResearchObject:
 
     def describes(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[Union[str, "Node"]] = None,
     ) -> Optional["Node"]:
         return next(
@@ -224,7 +224,7 @@ class ResearchObject:
 
     def provenance(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[str] = None,
     ) -> Optional[Set["Node"]]:
         for a in self.annotations_about(path, uri):
@@ -242,7 +242,7 @@ class ResearchObject:
 
     def mediatype(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[str] = None,
     ) -> Optional[str]:
         resource = self._uriref(path=path, uri=uri)
@@ -250,7 +250,7 @@ class ResearchObject:
 
     def bundledAs(
         self,
-        path: Optional[Union[str, pathlib.PurePosixPath]] = None,
+        path: Optional[Union[str, pathlib.Path]] = None,
         uri: Optional[str] = None,
     ) -> Optional[str]:
         resource = self._uriref(path=path, uri=uri)
