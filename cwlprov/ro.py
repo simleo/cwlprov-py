@@ -115,7 +115,7 @@ class ResearchObject:
         return URIRef(self.root_uri)
 
     def resolve_uri(self, relative_uri: Union[str, pathlib.Path]) -> str:
-        return urllib.parse.urljoin(self.root_uri, str(relative_uri))
+        return urllib.parse.urljoin(self.root_uri, pathlib.Path(relative_uri).as_posix())
 
     def resolve_path(self, uri_path: Union[str, pathlib.Path]) -> pathlib.Path:
         if arcp.is_arcp_uri(str(uri_path)):
