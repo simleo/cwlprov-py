@@ -103,4 +103,3 @@ jobs:
 
       - name: Test with tox
         run: tox
-
