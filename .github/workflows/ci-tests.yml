@@ -2,7 +2,7 @@ name: Continous integration tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, windows ]
   pull_request:
     branches: [ main ]
 
